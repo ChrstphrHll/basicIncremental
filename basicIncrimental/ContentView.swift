@@ -56,7 +56,8 @@ class profileInfo: ObservableObject{
         }
     }
     
-    init(){
+    init(debug: Bool = false){
+        
         if let saveData = UserDefaults.standard.data(forKey: "saved"){
             let decoder = JSONDecoder()
             if let loaded = try? decoder.decode([currencyType].self, from: saveData){
@@ -70,6 +71,12 @@ class profileInfo: ObservableObject{
                          currencyType("green"),
                          currencyType("purple"),
                          currencyType("black")]
+        
+        if debug {
+            for num in 0..<self.currency.count{
+                self.currency[num].unlock()
+            }
+        }
     }
 }
 
@@ -78,11 +85,16 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
+            Spacer()
+            
             Text("Red: \(profile.currency[0].amount) Blu: \(profile.currency[1].amount)")
                 .padding()
             
             tapperPanel(prof: profile)
             
+            Spacer()
+            
+            store(profile: profile)
         }
     }
 }

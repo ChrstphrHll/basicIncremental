@@ -11,7 +11,7 @@ struct tapperPanel: View {
     @ObservedObject var prof: profileInfo
     
     var body: some View {
-        HStack {
+        VStack {
             ForEach(0 ..< prof.currency.count) { number in
                 let element = prof.currency[number]
                 if element.unlocked {
@@ -19,9 +19,11 @@ struct tapperPanel: View {
                         prof.currency[number].increment()
                     }){
                         HStack {
-                            Text("\(element.amount)")
                             tapper(name: element.name, color: element.getColor())
+                            
+                            Text("\(element.amount)")
                         }
+                        .padding(1)
                     }
                 }
             }
@@ -31,6 +33,6 @@ struct tapperPanel: View {
 
 struct tapperPanel_Previews: PreviewProvider {
     static var previews: some View {
-        tapperPanel(prof: profileInfo())
+        tapperPanel(prof: profileInfo(debug: true))
     }
 }
